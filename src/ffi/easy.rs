@@ -88,19 +88,49 @@ impl Easy {
         // Try to get the response code
         builder.code = try!(self.get_response_code());
 
+        // Try to get the connect time
+        builder.connect_time = try!(self.get_connect_time());
+
+        // Try to get the redirect count
+        builder.redirect_count = try!(self.get_redirect_count());
+
+	// Try to get the total time
+        builder.total_time = try!(self.get_total_time());
+
         Ok(builder.build())
+    }
+
+    pub fn get_redirect_count(&self) -> Result<u32, err::ErrCode> {
+        Ok(try!(self.get_info_long(info::REDIRECT_COUNT)) as u32)
+    }
+
+    pub fn get_connect_time(&self) -> Result<f64, err::ErrCode> {
+        Ok(try!(self.get_info_double(info::CONNECT_TIME)) as f64)
     }
 
     pub fn get_response_code(&self) -> Result<u32, err::ErrCode> {
         Ok(try!(self.get_info_long(info::RESPONSE_CODE)) as u32)
     }
 
-    pub fn get_total_time(&self) -> Result<usize, err::ErrCode> {
-        Ok(try!(self.get_info_long(info::TOTAL_TIME)) as usize)
+    pub fn get_total_time(&self) -> Result<f64, err::ErrCode> {
+        Ok(try!(self.get_info_double(info::TOTAL_TIME)) as f64)
     }
 
     fn get_info_long(&self, key: info::Key) -> Result<c_long, err::ErrCode> {
         let v: c_long = 0;
+        let res = err::ErrCode(unsafe {
+            ffi::curl_easy_getinfo(self.curl as *const _, key, &v)
+        });
+
+        if !res.is_success() {
+            return Err(res);
+        }
+
+        Ok(v)
+    }
+
+    fn get_info_double(&self, key: info::Key) -> Result<c_double, err::ErrCode> {
+        let v: c_double = 0.0;
         let res = err::ErrCode(unsafe {
             ffi::curl_easy_getinfo(self.curl as *const _, key, &v)
         });
