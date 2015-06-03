@@ -6,16 +6,40 @@ pub type Headers = HashMap<String, Vec<String>>;
 pub struct Response {
     code: u32,
     hdrs: Headers,
-    body: Vec<u8>
+    body: Vec<u8>,
+    total_time: f64,
+    primary_ip: Vec<u8>,
+    connect_time: f64,
+    redirect_count: u32
 }
 
 impl Response {
-    pub fn new(code: u32, hdrs: Headers, body: Vec<u8>) -> Response {
+    pub fn new(code: u32, hdrs: Headers, body: Vec<u8>, total_time: f64, primary_ip: Vec<u8>, connect_time: f64, redirect_count: u32) -> Response {
         Response {
             code: code,
             hdrs: hdrs,
-            body: body
+            body: body,
+	    total_time: total_time,
+	    primary_ip: primary_ip,
+	    connect_time: connect_time,
+	    redirect_count: redirect_count
         }
+    }
+
+    pub fn get_total_time(&self) -> f64 {
+        self.total_time
+    }
+
+    pub fn get_primary_ip<'a>(&'a self) -> &'a [u8] {
+        &self.primary_ip
+    }
+
+    pub fn get_connect_time(&self) -> f64 {
+        self.connect_time
+    }
+
+    pub fn get_redirect_count(&self) -> u32 {
+        self.redirect_count
     }
 
     pub fn get_code(&self) -> u32 {

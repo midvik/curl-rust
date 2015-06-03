@@ -141,7 +141,11 @@ impl Drop for Easy {
 struct ResponseBuilder {
     code: u32,
     hdrs: HashMap<String,Vec<String>>,
-    body: Vec<u8>
+    body: Vec<u8>,
+    total_time: f64,
+    primary_ip: Vec<u8>,
+    connect_time: f64,
+    redirect_count: u32
 }
 
 impl ResponseBuilder {
@@ -149,7 +153,11 @@ impl ResponseBuilder {
         ResponseBuilder {
             code: 0,
             hdrs: HashMap::new(),
-            body: Vec::new()
+            body: Vec::new(),
+	    total_time: 0.0,
+	    primary_ip: Vec::new(),
+	    connect_time: 0.0,
+	    redirect_count: 0
         }
     }
 
@@ -172,8 +180,8 @@ impl ResponseBuilder {
     }
 
     fn build(self) -> Response {
-        let ResponseBuilder { code, hdrs, body } = self;
-        Response::new(code, hdrs, body)
+        let ResponseBuilder { code, hdrs, body, total_time, connect_time, redirect_count, primary_ip } = self;
+        Response::new(code, hdrs, body, total_time, primary_ip, connect_time, redirect_count)
     }
 }
 
