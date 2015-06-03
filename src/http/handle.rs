@@ -42,6 +42,11 @@ impl Handle {
         fn configure(handle: Handle) -> Handle { handle }
     }
 
+    pub fn nosignal(mut self) -> Handle {
+        self.easy.setopt(opt::NOSIGNAL, 1).unwrap();
+        self
+    }
+
     pub fn timeout(mut self, ms: usize) -> Handle {
         self.easy.setopt(opt::TIMEOUT_MS, ms).unwrap();
         self
