@@ -100,16 +100,16 @@ impl Easy {
         Ok(builder.build())
     }
 
-    pub fn get_redirect_count(&self) -> Result<u32, err::ErrCode> {
-        Ok(try!(self.get_info_long(info::REDIRECT_COUNT)) as u32)
+    pub fn get_redirect_count(&self) -> Result<i32, err::ErrCode> {
+        Ok(try!(self.get_info_long(info::REDIRECT_COUNT)) as i32)
     }
 
     pub fn get_connect_time(&self) -> Result<f64, err::ErrCode> {
         Ok(try!(self.get_info_double(info::CONNECT_TIME)) as f64)
     }
 
-    pub fn get_response_code(&self) -> Result<u32, err::ErrCode> {
-        Ok(try!(self.get_info_long(info::RESPONSE_CODE)) as u32)
+    pub fn get_response_code(&self) -> Result<i32, err::ErrCode> {
+        Ok(try!(self.get_info_long(info::RESPONSE_CODE)) as i32)
     }
 
     pub fn get_total_time(&self) -> Result<f64, err::ErrCode> {
@@ -169,13 +169,13 @@ impl Drop for Easy {
  */
 
 struct ResponseBuilder {
-    code: u32,
+    code: i32,
     hdrs: HashMap<String,Vec<String>>,
     body: Vec<u8>,
     total_time: f64,
     primary_ip: Vec<u8>,
     connect_time: f64,
-    redirect_count: u32
+    redirect_count: i32
 }
 
 impl ResponseBuilder {

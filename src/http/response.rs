@@ -4,25 +4,25 @@ use std::collections::HashMap;
 pub type Headers = HashMap<String, Vec<String>>;
 
 pub struct Response {
-    code: u32,
+    code: i32,
     hdrs: Headers,
     body: Vec<u8>,
     total_time: f64,
     primary_ip: Vec<u8>,
     connect_time: f64,
-    redirect_count: u32
+    redirect_count: i32
 }
 
 impl Response {
-    pub fn new(code: u32, hdrs: Headers, body: Vec<u8>, total_time: f64, primary_ip: Vec<u8>, connect_time: f64, redirect_count: u32) -> Response {
+    pub fn new(code: i32, hdrs: Headers, body: Vec<u8>, total_time: f64, primary_ip: Vec<u8>, connect_time: f64, redirect_count: i32) -> Response {
         Response {
             code: code,
             hdrs: hdrs,
             body: body,
-	    total_time: total_time,
-	    primary_ip: primary_ip,
-	    connect_time: connect_time,
-	    redirect_count: redirect_count
+    	    total_time: total_time,
+    	    primary_ip: primary_ip,
+    	    connect_time: connect_time,
+    	    redirect_count: redirect_count
         }
     }
 
@@ -38,11 +38,11 @@ impl Response {
         self.connect_time
     }
 
-    pub fn get_redirect_count(&self) -> u32 {
+    pub fn get_redirect_count(&self) -> i32 {
         self.redirect_count
     }
 
-    pub fn get_code(&self) -> u32 {
+    pub fn get_code(&self) -> i32 {
         self.code
     }
 
